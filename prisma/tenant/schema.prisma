@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/tenant"
+}
+
+datasource tenantDb {
+  provider = "postgresql"
+  url      = env("TENANT_DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+  superadmin
+}
+
+model User {
+  id               String  @id @default(uuid())
+  email            String  @unique
+  name             String
+  password         String
+  isVerified       Boolean @default(false)
+  verificationCode String?
+  refreshToken     String?
+  role             Role    @default(user)
+}

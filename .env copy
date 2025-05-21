@@ -1,4 +1,0 @@
-DATABASE_URL="postgresql://firebase:firebase1@postgres-bd:5432/apps_unaccess_db"
-TENANT_DATABASE_URL="postgresql://firebase:firebase1@postgres-bd:5432/users_unaccess_db" 
-
-APP_PRINCIPAL="users_unaccess_db"

@@ -30,3 +30,32 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/roble-app:latest -t ${{ secrets.DOCKER_USERNAME }}/roble-app:${{ env.VERSION }} . 
           docker push ${{ secrets.DOCKER_USERNAME }}/roble-app:latest 
           docker push ${{ secrets.DOCKER_USERNAME }}/roble-app:${{ env.VERSION }}
+
+      - name: Deploy container on test server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/roble-api:${{ env.VERSION }}
+            docker rm -f roble-api || true
+
+            docker network create roble-network || true
+
+            docker run -d \
+              --name roble-api \
+              --network roble-network \
+              -p 4001:3000 \
+              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e TENANT_DATABASE_URL="${{ secrets.TENANT_DATABASE_URL }}" \
+              -e APP_PRINCIPAL="${{ secrets.APP_PRINCIPAL }}" \
+              -e DB_USER="${{ secrets.DB_USER }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e DB_HOST="${{ secrets.DB_HOST }}" \
+              -e DB_PORT="${{ secrets.DB_PORT }}" \
+              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+              
+              ${{ secrets.DOCKER_USERNAME }}/roble-api:${{ env.VERSION }}
+      

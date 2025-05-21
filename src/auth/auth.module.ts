@@ -7,7 +7,7 @@ import { JwtStrategy } from './jwt.strategy'; // o ajusta la ruta
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: 'this_is_a_secret', // Cambia esto por una variable de entorno o un secreto seguro
+      secret: process.env.JWT_SECRET, // Cambia esto por una variable de entorno o un secreto seguro
       signOptions: { expiresIn: '15m' }, // Cambia esto según tus necesidades
     }),
   ],

@@ -55,6 +55,7 @@ export class ContractService {
         id: true,
         key: true,
         appName: true,
+        appId: true,
       },
     });
   }

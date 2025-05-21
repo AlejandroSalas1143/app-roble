@@ -27,6 +27,6 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/roble-api:latest -t ${{ secrets.DOCKER_USERNAME }}/roble-api:${{ env.VERSION }} . 
-          docker push ${{ secrets.DOCKER_USERNAME }}/roble-api:latest 
-          docker push ${{ secrets.DOCKER_USERNAME }}/roble-api:${{ env.VERSION }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/roble-app:latest -t ${{ secrets.DOCKER_USERNAME }}/roble-app:${{ env.VERSION }} . 
+          docker push ${{ secrets.DOCKER_USERNAME }}/roble-app:latest 
+          docker push ${{ secrets.DOCKER_USERNAME }}/roble-app:${{ env.VERSION }}
